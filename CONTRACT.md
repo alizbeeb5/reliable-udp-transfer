@@ -376,22 +376,4 @@ against the same cases before integration. This is a checklist, not a claim test
 | Receiver I/O failure / 100% loss | Explicit error or cancellable incomplete run, never false success |
 | Counters after normal cleanup | Section 9 identities hold and `pending == 0` |
 
-## 11. Team review and handoff
 
-- Confirm which of Yara/Ghadi owns part 1 versus part 3; only Ali's part 2 is confirmed.
-- Agree on this document's values before independent implementation. Any change
-  to ACK semantics, packet types, hash encoding, or callback signatures requires
-  all affected owners to coordinate, even if the change looks small.
-- Part 1 hands Ali the packet tuple, channel callback, and ACK dispatch loop.
-  Ali can start against a fake callback and scripted ACKs before sockets exist.
-  Part 3 can start against the golden datagrams before the sender exists.
-- Add README run commands once the CLI exists, actual contribution records, and
-  the required instructor collaborator invitations. This contract does not claim
-  those invitations or any other deliverables have been completed.
-
-Assignment source: supplied `EECE 350 Project-4.pdf`, project overview and member
-tasks (pages 1-3), plus display/deliverables (page 3). The assignment requires the
-header, cumulative ACK behavior, base timeout, fast retransmit, END hash and
-retransmission, and sender channel boundary. Numeric wire values, module names,
-defaults, simulator edge-case policy, and runtime interfaces here are proposed
-team choices, not additional instructor requirements.

@@ -1,6 +1,5 @@
 # Member 1: Ghadi Zouki
-# AI assistance: Codex drafted the initial implementation of this file,
-# (AI informed me about data class and other related function)
+# (AI informed me about the data class and other related functions)
 
 import struct
 from dataclasses import dataclass

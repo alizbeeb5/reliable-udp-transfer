@@ -1,3 +1,5 @@
+# Member 1: Ghadi Zouki
+
 import hashlib
 from dataclasses import dataclass
 from pathlib import Path

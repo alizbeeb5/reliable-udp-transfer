@@ -1,3 +1,5 @@
+# Member 1: Ghadi Zouki
+
 import random
 
 from protocol import decode_packet

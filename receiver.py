@@ -1,7 +1,9 @@
 # Member 3: Yara El Rohayem
 # Part 3: receiver
 # AI assistance: Claude was used to help with library imports and syntax.
+# OpenAI assistance for CLI wiring, cleanup, and integration tests.
 
+import argparse
 import hashlib
 import socket
 
@@ -12,23 +14,21 @@ PORT = 9000
 OUTPUT_FILE = "received_file"
 
 
-def finish_file(file_data, end_hash):
-    with open(OUTPUT_FILE, "wb") as f:
-        f.write(b"".join(file_data))
+def finish_file(file_data, end_hash, output_path=OUTPUT_FILE):
+    with open(output_path, "wb") as f:
+        f.writelines(file_data)
 
-    with open(OUTPUT_FILE, "rb") as f:
-        my_hash = hashlib.sha256(f.read()).digest()
+    hasher = hashlib.sha256()
+    with open(output_path, "rb") as f:
+        for chunk in iter(lambda: f.read(65536), b""):
+            hasher.update(chunk)
 
-    if my_hash == end_hash:
+    if hasher.digest() == end_hash:
         return "MATCH"
     return "MISMATCH"
 
 
-def main():
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.bind((HOST, PORT))
-    print(f"Receiver listening on {HOST}:{PORT}, file will be saved as {OUTPUT_FILE}")
-
+def receive_file(sock, output_path):
     expected = 0
     buffer = {}
     file_data = []
@@ -70,7 +70,7 @@ def main():
             if packet.packet_type == DATA:
                 file_data.append(packet.payload)
             else:
-                result = finish_file(file_data, packet.payload)
+                result = finish_file(file_data, packet.payload, output_path)
                 done = True
             expected += 1
 
@@ -79,7 +79,7 @@ def main():
                 if saved.packet_type == DATA:
                     file_data.append(saved.payload)
                 else:
-                    result = finish_file(file_data, saved.payload)
+                    result = finish_file(file_data, saved.payload, output_path)
                     done = True
                 expected += 1
 
@@ -110,9 +110,32 @@ def main():
             print(f"ACKs sent: {stats['acks_sent']}")
             print(f"Bytes written: {sum(len(piece) for piece in file_data)}")
             print(f"File check: {result}")
+            buffer.clear()
+            file_data.clear()
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Receive one reliable UDP file transfer.")
+    parser.add_argument("--host", default=HOST, help="local IPv4 address to bind")
+    parser.add_argument("--port", type=int, default=PORT, help="local UDP port")
+    parser.add_argument("--output", default=OUTPUT_FILE, help="where to save the received file")
+    args = parser.parse_args()
+    if not 1 <= args.port <= 65535:
+        parser.error("--port must be between 1 and 65535")
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            sock.bind((args.host, args.port))
+            print(f"Receiver listening on {args.host}:{args.port}, output: {args.output}", flush=True)
+            receive_file(sock, args.output)
+    except KeyboardInterrupt:
+        print("\nReceiver stopped.")
+        return 130
+    except OSError as error:
+        parser.exit(1, f"Receiver error: {error}\n")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
 
 

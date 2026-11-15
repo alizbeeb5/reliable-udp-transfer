@@ -12,9 +12,9 @@ in the same coordinated change. Internal algorithms may differ if these guarante
 
 | Part | Owner | Implements | Receives / provides |
 | --- | --- | --- | --- |
-| 1: packets, file preparation, unreliable channel | Yara El Rohayem or Ghadi Zouki; assignment pending | `protocol.py`, `packetizer.py`, `channel.py`, sender CLI wiring | Provides encoded packets and a `channel.send` callback to part 2 |
+| 1: packets, file preparation, unreliable channel | **Ghadi Zouki** | `protocol.py`, `packetizer.py`, `channel.py` | Provides encoded packets and a `channel.send` callback to part 2 |
 | 2: sending window, timers, retransmission | **Ali Hadi Zbeeb** | `window.py` | Takes encoded packets; receives validated ACK numbers; requests every transmission through the channel |
-| 3: receiver, buffering, ACKs, file verification | Other teammate; assignment pending | `receiver.py` | Parses packets using `protocol.py`; sends cumulative ACKs back to the sender's UDP source address |
+| 3: receiver, buffering, ACKs, file verification | **Yara El Rohayem** | `receiver.py` | Parses packets using `protocol.py`; sends cumulative ACKs back to the sender's UDP source address |
 
 All three agree on `protocol.py`. Part 1 owns its implementation so there is one
 definition of the wire format. Each author identifies their contribution in a

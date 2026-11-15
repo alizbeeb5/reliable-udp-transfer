@@ -1,5 +1,5 @@
 # Member 1: Ghadi Zouki
-# (AI informed me about the data class and other related functions)
+# (AI informed me about the data class, hashlib, and struct)
 
 import struct
 from dataclasses import dataclass

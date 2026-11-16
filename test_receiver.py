@@ -1,5 +1,4 @@
 # Test script for receiver.py (Member 3: Yara El Rohayem)
-# AI assistance: written by Claude (Anthropic) to test the receiver alone.
 # Run receiver.py first, then run this file in a second terminal.
 
 import hashlib
@@ -16,7 +15,7 @@ def main():
     packets = [encode_packet(DATA, i, chunk) for i, chunk in enumerate(chunks)]
     packets.append(encode_packet(END, len(chunks), hashlib.sha256(data).digest()))
 
-    # END arrives before the last DATA, then again after completion.
+
     order = [0, 2, 3, 1, 5, 4, 5]
     expected = [1, 1, 1, 4, 4, 6, 6]
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:

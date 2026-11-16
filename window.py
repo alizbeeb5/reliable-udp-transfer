@@ -8,12 +8,6 @@ Part owner ....: Ali Hadi Zbeeb          (EECE 350 -- Computer Networks, Group 9
 File written .: Ali Hadi Zbeeb
 Part covered .: Part 2 -- "sender, window and retransmission"
 
-This file contains ONLY Part 2 code.  It does not touch sockets, files, or the
-packet format:
-
-  * Part 1 (Ghadi Zouki) owns ``protocol.py``, ``packetizer.py``, and ``channel.py``.
-  * Part 3 (Yara El Rohayem) owns ``receiver.py``.
-  * The integrated ``sender.py`` wires Parts 1 and 2 together.
 
 INTERFACE OWNERSHIP
 -------------------

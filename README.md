@@ -25,12 +25,9 @@ receiver.py buffers out-of-order packets and discards duplicates. Each ACK
 gives the next expected sequence number. Once END arrives in order, the receiver
 writes the file and reports MATCH or MISMATCH.
 
-<details>
-<summary>Project flowchart</summary>
+## Project flowchart
 
-[![Reliable UDP file transfer flowchart](docs/flowchart.png)](docs/flowchart.pdf)
-
-</details>
+[![Reliable UDP file transfer flowchart](docs/flowchart.png)](flowchart.pdf)
 
 ## Run
 
